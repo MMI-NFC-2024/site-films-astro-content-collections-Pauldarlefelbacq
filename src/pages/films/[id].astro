@@ -18,23 +18,27 @@ const { film } = Astro.props;
 const { Content } = await render(film);
 ---
 <Layout titre = { film.data.nom }>
-    <div class="w-fit">
-        <a class="font-bold group" href="/films/">Retourner aux films<div class="w-full bg-black h-0.5 group-hover:w-0 transition-all duration-300 "></div></a>
-    </div>
-    <p>Fait le : {formatDate(film.data.sortie)}</p>
-    <p>Lieu de tournage : {joinWithEt(film.data.pays_origine ?? [])}</p>
-    {film.data.realisateur &&
-        <div class="flex gap-x-2"> 
-            <p>Réalisateur :</p>
-            <LinkPersonne personne={await getEntry(film.data.realisateur)} />
+    <article class="prose">
+        <div class="w-fit">
+            <a class="font-bold group" href="/films/">Retourner aux films<div class="w-full bg-black h-0.5 group-hover:w-0 transition-all duration-300 "></div></a>
         </div>
-    }
+        <p>Fait le : {formatDate(film.data.sortie)}</p>
+        <p>Lieu de tournage : {joinWithEt(film.data.pays_origine ?? [])}</p>
+        {film.data.realisateur &&
+            <div class="flex gap-x-2"> 
+                <p>Réalisateur :</p>
+                <LinkPersonne personne={await getEntry(film.data.realisateur)} />
+            </div>
+        }
 
-    {film.data.producteurs && 
-        <p>{(await getEntries(film.data.producteurs)).map(prod => <LinkPersonne personne={prod} />).reduce((prev, curr) => [prev, ', ', curr])}</p>
-    }
+        {film.data.producteurs &&
+            <p>Producteur</p> 
+            <p>{(await getEntries(film.data.producteurs)).map(prod => <LinkPersonne personne={prod} />).reduce((prev, curr) => [prev, ', ', curr])}</p>
+        }
 
-    {film.data.image && <Image src={film.data.image} alt={`photo de ${film.data.nom}`} data-pagefind-meta="image[src], image_alt[alt]" />}
-    
-    <Content />
+        {film.data.image && 
+            <Image src={film.data.image} alt={`photo de ${film.data.nom}`} data-pagefind-meta="image[src], image_alt[alt]" />}
+        
+        <Content />
+    </article>
 </Layout>
