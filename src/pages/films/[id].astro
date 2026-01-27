@@ -16,6 +16,11 @@ export async function getStaticPaths() {
 };
 const { film } = Astro.props;
 const { Content } = await render(film);
+
+const rolesEntries = film.data.roles ? await Promise.all(film.data.roles.map(async ({acteur, nom_role})=> ({
+    nom_role,
+    acteur: await getEntry(acteur) 
+}))) : []
 ---
 <Layout titre = { film.data.nom }>
     <article class="prose">
@@ -35,6 +40,20 @@ const { Content } = await render(film);
             <p>Producteur</p> 
             <p>{(await getEntries(film.data.producteurs)).map(prod => <LinkPersonne personne={prod} />).reduce((prev, curr) => [prev, ', ', curr])}</p>
         }
+
+        {film.data.roles && 
+            <p>Roles : 
+            <ul>
+                {
+                    rolesEntries.map(({acteur, nom_role})=> 
+                    <li>
+                        <LinkPersonne personne = { acteur } />
+                        { nom_role }
+                    </li>
+                    )
+                }
+            </ul>
+            </p>}
 
         {film.data.image && 
             <Image src={film.data.image} alt={`photo de ${film.data.nom}`} data-pagefind-meta="image[src], image_alt[alt]" />}
