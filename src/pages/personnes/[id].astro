@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { calculateAge, formatDate, getRegionNames, joinWithEt } from "../../helper";
+import Image from "astro/components/Image.astro";
+
+export async function getStaticPaths() {
+    const personnes = await getCollection("personnes");
+    return personnes.map(personne =>({
+        params: { id: personne.id },
+        props: { personne },
+    }));
+};
+const { personne } = Astro.props;
+const { Content } = await render(personne);
+---
+<Layout titre = { personne.data.nom }>
+    <div class="w-fit">
+        <a class="font-bold group" href="/personnes/">Retourner aux acteurs<div class="w-full bg-black h-0.5 group-hover:w-0 transition-all duration-300 "></div></a>
+    </div>
+    <p>Née le {formatDate(personne.data.age)} {
+        !personne.data.deces && (
+            <span>âge: {calculateAge(personne.data.age)} ans</span>
+        )
+    }
+    </p>
+    {
+        personne.data.deces && (
+            <p>
+                Décédé le {formatDate(personne.data.deces)} à l'âge de {calculateAge(personne.data.age, personne.data.deces)}
+            </p>
+        )
+    }
+    {personne.data.deces && <p>Décédé le {formatDate(personne.data.deces).slice(0,20)}</p>}
+    {personne.data.lieu_naissance && <p>Lieu de naissance : {getRegionNames(personne.data.lieu_naissance)}</p>}
+    {personne.data.professions && <p>{joinWithEt(personne.data.professions)}</p>}
+    {personne.data.image && <Image src={personne.data.image} alt={`photo de ${personne.data.nom}`} data-pagefind-meta="image[src], image_alt[alt]" />}
+    <Content />
+</Layout>

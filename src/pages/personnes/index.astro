@@ -1,0 +1,15 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const personnes = await getCollection("personnes");
+---
+<Layout titre = "tous les personnes">
+    <ul>
+        {personnes.map(personne =>
+        <li class="w-fit"> 
+            <a class="group" href={`/personnes/${personne.id}`}>{personne.data.nom}<div class="w-0 bg-black h-0.5 group-hover:w-full transition-all duration-300 "></div></a>
+        </li>
+        )}
+    </ul>
+</Layout>

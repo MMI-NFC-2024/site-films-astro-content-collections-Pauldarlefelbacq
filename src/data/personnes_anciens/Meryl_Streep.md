@@ -1,7 +1,11 @@
 ---
 nom: Meryl Streep
-age: 75
-nationalite: Américaine
+age: 1949-06-22
+lieu_naissance: GB
+image: ../../assets/Meryl.jpeg
+professions: 
+    - acteur
+    - scénariste
 ---
 
 # Meryl Streep

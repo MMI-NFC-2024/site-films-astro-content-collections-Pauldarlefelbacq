@@ -1,7 +1,9 @@
 ---
 nom: Leonardo DiCaprio
-age: 50
-nationalite: Américain
+age: 1974-11-11
+lieu_naissance: GR
+image: ../../assets/di_caprio.jpeg
+professions: ["acteur", "scénariste", "producteur"]
 ---
 
 # Leonardo DiCaprio

@@ -6,11 +6,9 @@ titre: CV
 # Jean Dupont
 
 ![photo personnelle](../assets/hampter_tana.webp)
-<div class="flex "> 
 **Développeur Web Full Stack**  
 📧 jean.dupont@email.com | 📱 06 12 34 56 78  
 📍 Paris, France | [LinkedIn](https://linkedin.com) | [GitHub](https://github.com)
-</div>
 
 ---
 
