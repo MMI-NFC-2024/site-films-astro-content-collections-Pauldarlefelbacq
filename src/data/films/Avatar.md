@@ -8,6 +8,11 @@ realisateur: morgan_freeman
 producteurs:
     - cate_blanchett
     - christopher_nolan
+roles:
+    - acteur: alfred_hitchcock
+      nom_role: pandora
+    - acteur: quentin_tarantino
+      nom_role: on me dit que mozar est mort mmais quand j'ouvre le frigo mozarella
 ---
 
 Sur la lune Pandora, un ancien Marine paraplégique est envoyé en mission dans un corps d'Avatar Na'vi. Il se retrouve déchiré entre suivre ses ordres et protéger le monde qu'il considère désormais comme son foyer. Film révolutionnaire de James Cameron.

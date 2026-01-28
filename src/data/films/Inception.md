@@ -9,6 +9,11 @@ producteurs:
     - quentin_tarantino
     - viola_davis
     - morgan_freeman
+roles:
+    - acteur: alfred_hitchcock
+      nom_role: inceptionneur junior
+    - acteur: christopher_nolan
+      nom_role: je sais pas j'ai pas vu le film
 ---
 
 Un voleur qui s'infiltre dans les rêves des gens pour voler leurs secrets se voit confier une mission impossible : implanter une idée dans l'esprit d'un PDG. Réalisé par Christopher Nolan, ce film explore les limites de la réalité et de l'imagination.
