@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Image from "astro/components/Image.astro";
+import placeholder from "../../assets/acteurs/placeholder_acteurs.webp";
 
 const personnes = await getCollection("personnes");
 ---
@@ -24,9 +25,7 @@ const personnes = await getCollection("personnes");
                     {
                         !personne.data.image && (
                             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-300 to-gray-400">
-                                <span class="text-6xl font-bold text-white opacity-50">
-                                    {personne.data.nom.charAt(0)}
-                                </span>
+                                <img src={placeholder.src} alt={`placeholder de ${personne.data.nom}`} >
                             </div>
                         )
                     }

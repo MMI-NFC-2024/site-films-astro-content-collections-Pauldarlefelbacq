@@ -3,6 +3,7 @@ nom: Christopher Nolan
 age: 1970-07-30
 lieu_naissance: GB
 professions: ["réalisateur", "scénariste", "producteur"]
+image: ../../assets/acteurs/Meryl.jpeg
 ---
 
 # Christopher Nolan

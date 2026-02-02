@@ -3,6 +3,12 @@ import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import { calculateAge, formatDate, getRegionNames, joinWithEt } from "../../helper";
 import Image from "astro/components/Image.astro";
+import { ACTION_QUERY_PARAMS, ActionInputError } from "astro:actions";
+import LinkFilm from "../../components/LinkFilm.astro";
+import ListeFilms from "../../components/ListeFilms.astro";
+import { getEntry } from "astro:content";
+import type { InferEntrySchema, ReferenceDataEntry, RenderedContent } from "astro:content";
+import LinkPersonne from "../../components/LinkPersonne.astro";
 
 export async function getStaticPaths() {
     const personnes = await getCollection("personnes");
@@ -13,6 +19,32 @@ export async function getStaticPaths() {
 };
 const { personne } = Astro.props;
 const { Content } = await render(personne);
+
+const filmRealisateur = await getCollection("films", function (film) {
+    return film.data.realisateur?.id === personne.id;
+});
+const filmProducteur = await getCollection("films", function (film) {
+    return film.data.producteurs?.some((a) => a.id === personne.id);
+});
+const filmRole:{role:{
+    acteur: ReferenceDataEntry<"personnes", string>;
+    nom_role: string;
+ },film:{
+    id: string;
+    body?: string;
+    collection: "films";
+    data: InferEntrySchema<"films">;
+    rendered?: RenderedContent;
+    filePath?: string;
+},}[] = [];
+await getCollection("films", function(film) {
+    const role = film.data.roles?.find((r) => r.acteur.id === personne.id);
+    if (role) {
+        filmRole.push({ role, film });
+    }
+});
+
+const FilmsAvecRole = (await getCollection("films")).flatMap((film) => film.data.roles?.filter(role => role.acteur.id === personne.id)?.map(({nom_role})=>)))
 ---
 <Layout titre = { personne.data.nom }>
     <article class="prose">
@@ -35,6 +67,49 @@ const { Content } = await render(personne);
         {personne.data.deces && <p>Décédé le {formatDate(personne.data.deces).slice(0,20)}</p>}
         {personne.data.lieu_naissance && <p>Lieu de naissance : {getRegionNames(personne.data.lieu_naissance)}</p>}
         {personne.data.professions && <p>{joinWithEt(personne.data.professions)}</p>}
+        <p class="text-2xl font-bold">Films réalisés par l'auteur</p>
+        {
+        filmRealisateur.length !== 0 && 
+            (
+                <ul>
+                    {filmRealisateur.map(film =>(
+                        <li><a class="font-bold" href={`/films/${film.id}`}>{film.data.nom}</a></li>
+                    ))}
+                </ul>
+                //Façon de faire avec le composant
+
+                // <h1>Films avec composant</h1>
+                // <ListeFilms films ={filmRealisateur}/>
+            )
+        }
+        {
+        filmRealisateur.length === 0 &&
+            (
+             <p>Aucun film réalisé pour le moment</p>   
+            )
+        }
+
+        <p class="text-2xl font-bold">Films produits par l'auteur</p>
+        {filmProducteur.length !== 0  &&
+            (
+                <p><ListeFilms films ={filmProducteur}/></p>
+            )
+        }
+        {
+        filmProducteur.length === 0 &&
+            (
+             <p>Aucun film produits pour le moment</p>   
+            )
+        }
+        <h2>Liste des films dans lequel il a eu un role </h2>
+        <!-- <ListeFilms films={filmRole.map(({ film }) => film)} /> -->
+        <ul>
+            {
+                filmRole.map((role) => (
+                    <li><span class="font-bold">{role.role.nom_role}</span> dans  <LinkFilm film={role.film} /></li>
+                ))
+            }
+        </ul>
         {personne.data.image && <Image src={personne.data.image} alt={`photo de ${personne.data.nom}`} data-pagefind-meta="image[src], image_alt[alt]" />}
         <Content />
     </article>

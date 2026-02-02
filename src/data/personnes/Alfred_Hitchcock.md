@@ -4,6 +4,7 @@ age: 1899-08-13
 deces: 1980-04-29
 lieu_naissance: GB
 professions: ["réalisateur", "producteur", "scénariste"]
+image: ../../assets/acteurs/di_caprio.jpeg
 ---
 
 # Alfred Hitchcock

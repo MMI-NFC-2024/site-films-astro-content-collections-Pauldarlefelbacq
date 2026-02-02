@@ -3,6 +3,7 @@ nom: Cate Blanchett
 age: 1969-05-14
 lieu_naissance: AU
 professions: ["acteur", "producteur"]
+image: ../../assets/acteurs/Jar.jpg
 ---
 
 # Cate Blanchett
