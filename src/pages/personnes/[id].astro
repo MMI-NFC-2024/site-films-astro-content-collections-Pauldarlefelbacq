@@ -44,7 +44,7 @@ await getCollection("films", function(film) {
     }
 });
 
-const FilmsAvecRole = (await getCollection("films")).flatMap((film) => film.data.roles?.filter(role => role.acteur.id === personne.id)?.map(({nom_role})=>)))
+const FilmsAvecRole = (await getCollection("films")).flatMap((film) => film.data.roles?.filter(role => role.acteur.id === personne.id)?.map(({nom_role})=> ({nom_role, film})));
 ---
 <Layout titre = { personne.data.nom }>
     <article class="prose">
